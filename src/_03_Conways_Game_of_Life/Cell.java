@@ -1,22 +1,22 @@
 package _03_Conways_Game_of_Life;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Cell implements Drawable{
+public class Cell implements Drawable {
 	public boolean isAlive = false;
-	
+
 	private int x;
 	private int y;
 
 	private int cellSize;
-	
-	
+
 	public Cell(int x, int y, int size) {
 		this.x = x;
 		this.y = y;
 		this.cellSize = size;
 	}
-	
+
 	//11. Complete tue liveOrDie method
 	//    It sets isAlive to true or false based on the neighbors and 
 	//the rules of the game
@@ -28,9 +28,17 @@ public class Cell implements Drawable{
 	 * (source: Wikipedia)
 	 * */
 	public void liveOrDie(int numNeighbors) {
-		
+		if (numNeighbors < 2) {
+			isAlive = false;
+		} else if (numNeighbors > 3) {
+			isAlive = false;
+		} else if (numNeighbors == 3) {
+			isAlive = true;
+		} else if (numNeighbors == 2) {
+			isAlive = true;
+		}
 	}
-	
+
 	public int getX() {
 		return x;
 	}
@@ -38,17 +46,21 @@ public class Cell implements Drawable{
 	public int getY() {
 		return y;
 	}
-	
+
 	//12. Complete the draw method.
 	//    It draws a colored square if cell is alive
 	//    draws empty square if cell is dead
 	@Override
 	public void draw(Graphics g) {
-	
-		
-		
-		
-		
-		
+		if (isAlive == true) {
+			g.setColor(Color.blue);
+			g.drawRect(x, y, cellSize, cellSize);
+
+		} else if (isAlive == false) {
+			g.setColor(Color.white);
+			g.drawRect(x, y, cellSize, cellSize);
+
+		}
+
 	}
 }
