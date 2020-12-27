@@ -90,12 +90,13 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//6. Iterate through the cells and draw them all
 		for (int i = 0; i < main.length; i++) {
 			for (int j = 0; j < main[i].length; j++) {
-				g.drawRect(i * cellSize, j * cellSize, cellSize, cellSize);
+				main[i][j].draw(g);
+				g.setColor(Color.BLACK);
+				g.drawRect(main[i][j].getX(), main[i][j].getY(), cellSize, cellSize);
 			}
 		}
 		// draws grid
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+
 	}
 
 	//advances world one step
@@ -121,9 +122,11 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//	ArrayList<Cell> neighbor = new ArrayList<Cell>();
 		for (int i = x - 1; i < x + 2; i++) {
 			for (int j = y - 1; i < y + 2; i++) {
-				if (main[i][j].isAlive == true) {
-					//				neighbor.add(main[i][j]);
-					neighbor++;
+				if (i >= 0 && i < main.length && j >= 0 && j < main[i].length) {
+					if (main[i][j].isAlive == true) {
+						//				neighbor.add(main[i][j]);
+						neighbor++;
+					}
 				}
 			}
 		}
@@ -154,9 +157,10 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//    the isAlive variable for that cell.
 		for (int i = 0; i < main.length; i++) {
 			for (int j = 0; j < main[i].length; j++) {
-				if(i <= e.getX() && e.getX() <= (i*cellSize)) {
-					if(j <= e.getY() && e.getY() <= (j*cellSize)) {
+				if (i * cellSize <= e.getX() && e.getX() <= cellSize + (i * cellSize)) {
+					if (j * cellSize <= e.getY() && e.getY() <= cellSize + (j * cellSize)) {
 						main[i][j].isAlive = true;
+
 					}
 				}
 			}
