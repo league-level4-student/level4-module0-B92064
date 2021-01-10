@@ -19,7 +19,6 @@ public class MazeMaker{
 	public static Maze generateMaze(int w, int h){
 		width = w;
 		height = h;
-		maze = new Maze(width, height);
 		
 		//4. select a random cell to start
 		
