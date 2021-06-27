@@ -16,8 +16,8 @@ public class Maze {
 		allsquare = new Cell[width][height];
 		//3. Iterated through each cell and initialize it
 		//   using i and j as the location
-		for(int i = 0; i < allsquare.length; i++) {
-			for(int j = 0; j < allsquare[i].length; j++) {
+		for(int i = 0; i < width; i++) {
+			for(int j = 0; j < height; j++) {
 				allsquare[i][j] = new Cell(i,j);
 			}
 		}

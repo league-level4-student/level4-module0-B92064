@@ -17,13 +17,16 @@ public class MazeMaker {
 	public static Maze generateMaze(int w, int h) {
 		width = w;
 		height = h;
-
+		maze = new Maze(width, height);
 		//4. select a random cell to start
 		Random r = new Random();
 		int rWidth = r.nextInt(width);
 		int rHeight = r.nextInt(height);
 
 		//5. call selectNextPath method with the randomly selected cell
+		//		System.out.println(rWidth);
+		//		System.out.println(rHeight);
+		//		System.out.println(maze.allsquare[rWidth][rHeight]);
 		selectNextPath(maze.allsquare[rWidth][rHeight]);
 
 		return maze;
@@ -46,15 +49,16 @@ public class MazeMaker {
 		//		}
 
 		//C. if has unvisited neighbors,
-	
+
 		if (unvisited.size() > 0) {
 			Cell c = unvisited.get(randGen.nextInt(unvisited.size()));
 			uncheckedCells.push(c);
-			removeWalls(c,currentCell);
+			removeWalls(c, currentCell);
+			c.hasBeenVisited();
 			selectNextPath(c);
-			
-		}else {
-			if(!uncheckedCells.isEmpty()) {
+
+		} else {
+			if (!uncheckedCells.isEmpty()) {
 				selectNextPath(uncheckedCells.pop());
 			}
 		}
@@ -80,13 +84,44 @@ public class MazeMaker {
 	//   This method will check if c1 and c2 are adjacent.
 	//   If they are, the walls between them are removed.
 	private static void removeWalls(Cell c1, Cell c2) {
-
+		if (c1.getX() == c2.getX()) {
+			if (c1.getY() > c2.getY()) {
+				c1.setNorthWall(false);
+				c2.setSouthWall(false);
+			} else {
+				c1.setSouthWall(false);
+				c2.setNorthWall(false);
+			}
+		} else if (c1.getY() == c2.getY()) {
+			if (c1.getX() > c2.getX()) {
+				c1.setWestWall(false);
+				c2.setEastWall(false);
+			} else {
+				c1.setEastWall(false);
+				c2.setWestWall(false);
+			}
+		}
 	}
 
 	//8. Complete the getUnvisitedNeighbors method
 	//   Any unvisited neighbor of the passed in cell gets added
 	//   to the ArrayList
 	private static ArrayList<Cell> getUnvisitedNeighbors(Cell c) {
-		return null;
+		ArrayList<Cell> unvisited = new ArrayList<Cell>();
+		
+		for (int i = c.getX() - 1; i < c.getX() + 2; i++) {
+			for (int j = c.getY() - 1; i < c.getY() + 2; i++) {
+//				if (i == c.getX() && j == c.getY()) {
+//					continue;
+//				} 
+				 if (i > 0 && i < width && j > 0 && j < height) {
+					if (maze.allsquare[i][j].hasBeenVisited() == false) {
+						unvisited.add(maze.allsquare[i][j]);
+					}
+				}
+			}
+
+		}
+		return unvisited;
 	}
 }
