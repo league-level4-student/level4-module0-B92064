@@ -27,7 +27,7 @@ public class MazeMaker {
 		//		System.out.println(rWidth);
 		//		System.out.println(rHeight);
 		//		System.out.println(maze.allsquare[rWidth][rHeight]);
-		selectNextPath(maze.allsquare[rWidth][rHeight]);
+		selectNextPath(maze.getCell(rWidth,rHeight));
 
 		return maze;
 	}
@@ -54,12 +54,14 @@ public class MazeMaker {
 			Cell c = unvisited.get(randGen.nextInt(unvisited.size()));
 			uncheckedCells.push(c);
 			removeWalls(c, currentCell);
-			c.hasBeenVisited();
+			currentCell = c;
+			c.setBeenVisited(true);
 			selectNextPath(c);
-
+			
 		} else {
 			if (!uncheckedCells.isEmpty()) {
-				selectNextPath(uncheckedCells.pop());
+				currentCell = uncheckedCells.pop();
+				selectNextPath(currentCell);
 			}
 		}
 		//C1. select one at random.
@@ -77,6 +79,8 @@ public class MazeMaker {
 		// D1a. pop a cell from the stack
 
 		// D1b. make that the current cell
+		
+	
 
 	}
 
@@ -110,14 +114,16 @@ public class MazeMaker {
 		ArrayList<Cell> unvisited = new ArrayList<Cell>();
 		
 		for (int i = c.getX() - 1; i < c.getX() + 2; i++) {
-			for (int j = c.getY() - 1; i < c.getY() + 2; i++) {
+			for (int j = c.getY() - 1; j < c.getY() + 2; j++) {
 //				if (i == c.getX() && j == c.getY()) {
 //					continue;
 //				} 
-				 if (i > 0 && i < width && j > 0 && j < height) {
-					if (maze.allsquare[i][j].hasBeenVisited() == false) {
-						unvisited.add(maze.allsquare[i][j]);
+				if(i == c.getX() || j == c.getY()) {
+				 if (i >= 0 && i < width && j >= 0 && j < height) {
+					if (maze.getCell(i, j).hasBeenVisited() == false) {
+						unvisited.add(maze.getCell(i,j));
 					}
+				}
 				}
 			}
 
